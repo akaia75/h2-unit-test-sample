@@ -1,0 +1,6 @@
+analyseLocally=false
+eclipse.preferences.version=1
+extraProperties=sonar.host.url\=http\://localhost\:9090\r\nsonar.jdbc.password\=sonar\r\nsonar.jdbc.username\=sonar\r\nsonar.jdbc.url\=jdbc\:mysql\://localhost\:3306/sonar_db?useUnicode\=true\r\nsonar.jdbc.driver\=com.mysql.jdbc.Driver
+projectKey=me.h2\:plugin
+serverUrl=http\://localhost\:9090
+version=2
