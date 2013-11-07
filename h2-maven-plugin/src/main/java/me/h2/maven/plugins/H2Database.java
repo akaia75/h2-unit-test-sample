@@ -41,8 +41,7 @@ abstract class H2Database extends AbstractMojo {
 		}
 	}
 
-	//FIXME
-	private String data = "/users/travis/sample.h2.db";
+	private static final String data = System.getProperty("user.home") + "/sample.h2.db";
 	private void clean() {
 		File file = new File(data);
 		if(file.exists()) file.delete();

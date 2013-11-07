@@ -47,9 +47,9 @@ public class H2Database {
 		ac.close();
 	}
 	
-	//FIXME
-	private String data = "/users/travis/sample.h2.db";
+	private static final String data = System.getProperty("user.home") + "/sample.h2.db";
 	private void clean() {
+		System.out.println(data);
 		File file = new File(data);
 		if(file.exists()) file.delete();
 	}
