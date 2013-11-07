@@ -2,7 +2,6 @@ package me.h2.cafe;
 
 import static org.junit.Assert.*;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -21,19 +20,7 @@ public class CoffeeServiceTest {
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired
-	CoffeeRepository repo;
-	
-	@Autowired
 	CoffeeService service;
-	
-	private static ArrayList<Coffee> menu = new ArrayList<Coffee>() {
-		private static final long serialVersionUID = 1L;
-		{
-			add(new Coffee("americano", 1000));
-			add(new Coffee("cafe latte", 1500));
-			add(new Coffee("cafe mocha", 1500));
-		}
-	};
 	
 	private static H2Database db;
 	
@@ -41,13 +28,11 @@ public class CoffeeServiceTest {
 	public static void setup() throws SQLException {
 		try {
 			db = new H2Database();
-			for(Coffee c : menu) db.save(c);
+			db.start();
+			db.init();
 		} catch(SQLException e) {
 			throw e;
-		} finally {
-			db.shutdown();
 		}
-		System.out.println("load data...");
 	}
 	
 	@AfterClass

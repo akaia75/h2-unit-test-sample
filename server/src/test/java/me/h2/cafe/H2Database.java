@@ -2,6 +2,8 @@ package me.h2.cafe;
 
 import java.io.File;
 import java.sql.SQLException;
+import java.util.ArrayList;
+
 import org.h2.tools.Server;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,10 +16,12 @@ public class H2Database {
 	
 	private Server server;
 	private AbstractApplicationContext ac;
-	//FIXME
-	private String data = "/users/travis/sample.h2.db";
-	public H2Database() throws SQLException {
+	
+	public H2Database() {
 		
+	}
+	
+	public void start() throws SQLException {
 		logger.info("starting database...");
 		
 		File file = new File(data);
@@ -25,15 +29,36 @@ public class H2Database {
 		
 		server = Server.createTcpServer("-tcp");
         server.start();
-        
+	}
+	
+	private static ArrayList<Coffee> menu = new ArrayList<Coffee>() {
+		private static final long serialVersionUID = 1L;
+		{
+			add(new Coffee("americano", 1000));
+			add(new Coffee("cafe latte", 1500));
+			add(new Coffee("cafe mocha", 1500));
+		}
+	};
+	
+	public void init() {
 		ac = new ClassPathXmlApplicationContext("/context.xml", Server.class);
-		this.repo = ac.getBean(CoffeeRepository.class);
+		CoffeeRepository repo = ac.getBean(CoffeeRepository.class);
+		for(Coffee c : menu) repo.save(c);
+		ac.close();
+	}
+	
+	//FIXME
+	private String data = "/users/travis/sample.h2.db";
+	private void clean() {
+		File file = new File(data);
+		if(file.exists()) file.delete();
 	}
 	
 	public void shutdown() {
 		logger.info("shuting down database...");
+		clean();
 		server.shutdown();
-		ac.close();
+		
 	}
 
 	private CoffeeRepository repo;
